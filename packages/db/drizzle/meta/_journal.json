@@ -2073,6 +2073,20 @@
       "when": 1794234880275,
       "tag": "0295_kilter_aurora_benchmarks",
       "breakpoints": true
+    },
+    {
+      "idx": 296,
+      "version": "7",
+      "when": 1794241839683,
+      "tag": "0296_logbook_changes",
+      "breakpoints": true
+    },
+    {
+      "idx": 297,
+      "version": "7",
+      "when": 1794241839684,
+      "tag": "0297_logbook_change_triggers",
+      "breakpoints": true
     }
   ]
 }
