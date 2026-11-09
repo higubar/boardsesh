@@ -46,6 +46,17 @@ const authWebOAuthIdentitySchema = readFileSync(
   new URL('../../../db/drizzle/0294_auth_web_oauth_identity.sql', import.meta.url),
   'utf8',
 );
+// The logbook change feed, straight from the migrations so the tests run the
+// triggers production runs. 0296 is applied at the schema tail: its triggers
+// need boardsesh_ticks and board_climb_aliases to exist.
+const logbookChangesSchema = readFileSync(
+  new URL('../../../db/drizzle/0295_logbook_changes.sql', import.meta.url),
+  'utf8',
+);
+const logbookChangeTriggersSchema = readFileSync(
+  new URL('../../../db/drizzle/0296_logbook_change_triggers.sql', import.meta.url),
+  'utf8',
+);
 const sharedSprayDraftsSchema = readFileSync(
   new URL('../../../db/drizzle/0285_shared_spray_drafts.sql', import.meta.url),
   'utf8',
@@ -2290,4 +2301,11 @@ CREATE INDEX "board_climb_events_chronological_idx" ON "board_climb_events" USIN
   DROP TABLE IF EXISTS auth_web_oauth_intents;
   DROP TABLE IF EXISTS auth_web_oauth_commands;
   ${authWebOAuthIdentitySchema}
+  DROP TABLE IF EXISTS logbook_changes;
+  DROP TABLE IF EXISTS logbook_change_watermark;
+  ${logbookChangesSchema};
+  ${logbookChangeTriggersSchema};
+  -- Test fixtures reset boardsesh_ticks with TRUNCATE; the guard against that
+  -- is covered by logbook-changes.test.ts, which enables it for its own test.
+  ALTER TABLE boardsesh_ticks DISABLE TRIGGER trg_boardsesh_ticks_logbook_truncate;
 `;
