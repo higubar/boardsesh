@@ -590,7 +590,6 @@ export function useClimbFilterSession<K extends string, P extends FilterChipKind
       betaActive,
       onToggleBeta: handleToggleBeta,
       boardFit: chipBoardFit,
-      showAngle: false,
     }),
     [
       pinned,
